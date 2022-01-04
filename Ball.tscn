@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://ball.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/Ball.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 15.9929, 16.0957 )
+
+[node name="Ball" type="Sprite"]
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )
+one_way_collision_margin = 0.0
+
+[connection signal="input_event" from="Area2D" to="." method="_on_Area2D_input_event"]
