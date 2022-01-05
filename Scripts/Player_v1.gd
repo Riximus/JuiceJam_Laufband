@@ -1,22 +1,28 @@
 extends KinematicBody2D
 
-export var speed : float = 500
-
 export (PackedScene) var ball_scene
 
+export var speed : float = 500
+
+signal placed_object
+
 var direction : Vector2
-var dir : float
+var interactArea : bool
+var hasObject : bool
+var pickedObjectArea : bool
 
 #onready var ball_scene = preload("res://Ball.tscn")
 
 func _ready():
 	get_parent().get_node("Ball").connect("picked_up", self, "_picked_up_ball")
+	get_parent().get_node("Container").connect("placing_object", self, "_placing_in_container")
+	get_parent().get_node("Container").connect("has_object", self, "_has_object")
 
 func _physics_process(_delta: float):
 	player_move()
 
 func player_move():
-	var direction: Vector2 = get_direction()
+	direction = get_direction()
 	if direction.length() > 1.0: #for vertical movement
 		direction = direction.normalized()
 	look_at(get_global_mouse_position())
@@ -28,7 +34,49 @@ func get_direction() -> Vector2:
 		Input.get_action_strength("down") - Input.get_action_strength("up")
 	)
 	
+### SIGNALS ###
 func _picked_up_ball():
-	var ball_instance = ball_scene.instance()
-	add_child(ball_instance)
-	print("hey")
+	var ball_instance = ball_scene.instance() # object gets instantiated
+	if interactArea:
+		if get_node("PickedObject").has_node("Ball"):
+			print("has ball")
+		else:
+			get_node("PickedObject").add_child(ball_instance)
+	else:
+		print("too far away")
+
+func _placing_in_container():
+	if get_node("PickedObject").has_node("Ball") and pickedObjectArea and !hasObject:
+		get_node("PickedObject/Ball").queue_free()
+		emit_signal("placed_object") # placed object signal
+		print("placed the object")
+	elif get_node("PickedObject").has_node("Ball") and pickedObjectArea and hasObject:
+		print("already occupied")
+	elif !get_node("PickedObject").has_node("Ball") and pickedObjectArea:
+		print("has no ball to place")
+	else:
+		print("get a ball")
+
+func _on_InteractingArea_area_entered(area):
+	interactArea = true
+	get_node("PickedObject/PickedObjectArea").set_deferred("Monitorable", true)
+	#print(area.name)	
+
+func _on_InteractingArea_exited(area):
+	interactArea = false
+	get_node("PickedObject/PickedObjectArea").set_deferred("Monitorable", false)
+
+func _on_PickedObjectArea_area_entered(area):
+	if area.name == "ContainerArea":
+		#print("inside containerArea")
+		pickedObjectArea = true
+
+func _on_PickedObjectArea_area_exited(area):
+	if area.name == "ContainerArea":
+		#print("outside containerArea")
+		pickedObjectArea = false
+
+func _has_object(boolean):
+	hasObject = boolean
+
+

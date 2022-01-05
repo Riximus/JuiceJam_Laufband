@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://container.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/Container.gd" type="Script" id=2]
+[ext_resource path="res://Ball.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 31.9262, 31.9408 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 33.0521, 33.0068 )
+
+[node name="Container" type="Sprite"]
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+ball_scene = ExtResource( 3 )
+
+[node name="ContainerBody" type="StaticBody2D" parent="."]
+
+[node name="ContainerCollision" type="CollisionShape2D" parent="ContainerBody"]
+shape = SubResource( 1 )
+
+[node name="ContainerArea" type="Area2D" parent="."]
+
+[node name="ContainerAreaCollision" type="CollisionShape2D" parent="ContainerArea"]
+shape = SubResource( 2 )
+
+[connection signal="area_entered" from="ContainerArea" to="." method="_on_ContainerArea_area_entered"]
+[connection signal="input_event" from="ContainerArea" to="." method="_on_ContainerArea_input_event"]
