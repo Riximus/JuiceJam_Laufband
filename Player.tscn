@@ -4,13 +4,13 @@
 [ext_resource path="res://Scripts/Player_v1.gd" type="Script" id=2]
 [ext_resource path="res://ball.png" type="Texture" id=3]
 
-[sub_resource type="CircleShape2D" id=4]
+[sub_resource type="CircleShape2D" id=1]
 radius = 31.0718
 
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 28.7254, 31.9056 )
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 62.8026, 34.1692 )
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=3]
 radius = 164.258
 
 [node name="Player" type="KinematicBody2D"]
@@ -25,7 +25,7 @@ position = Vector2( 22.2326, -0.222725 )
 texture = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 4 )
+shape = SubResource( 1 )
 
 [node name="PickedObject" type="YSort" parent="."]
 position = Vector2( 61, 0 )
@@ -34,12 +34,18 @@ position = Vector2( 61, 0 )
 position = Vector2( -0.0606499, 0 )
 
 [node name="PickedObjectCollision" type="CollisionShape2D" parent="PickedObject/PickedObjectArea"]
-shape = SubResource( 3 )
+position = Vector2( 33, 0 )
+shape = SubResource( 2 )
 
 [node name="InteractingArea" type="Area2D" parent="."]
+visible = false
+monitoring = false
+monitorable = false
 
 [node name="InteractingCollision" type="CollisionShape2D" parent="InteractingArea"]
-shape = SubResource( 2 )
+visible = false
+shape = SubResource( 3 )
+disabled = true
 
 [connection signal="area_entered" from="PickedObject/PickedObjectArea" to="." method="_on_PickedObjectArea_area_entered"]
 [connection signal="area_exited" from="PickedObject/PickedObjectArea" to="." method="_on_PickedObjectArea_area_exited"]

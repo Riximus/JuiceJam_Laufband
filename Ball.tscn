@@ -10,11 +10,11 @@ extents = Vector2( 15.9929, 16.0957 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 
-[node name="ObjectArea" type="Area2D" parent="."]
+[node name="BallArea" type="Area2D" parent="."]
 monitoring = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ObjectArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BallArea"]
 shape = SubResource( 1 )
 one_way_collision_margin = 0.0
 
-[connection signal="input_event" from="ObjectArea" to="." method="_on_Area2D_input_event"]
+[connection signal="input_event" from="BallArea" to="." method="_on_Area2D_input_event"]

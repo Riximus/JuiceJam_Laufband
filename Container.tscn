@@ -25,5 +25,10 @@ shape = SubResource( 1 )
 [node name="ContainerAreaCollision" type="CollisionShape2D" parent="ContainerArea"]
 shape = SubResource( 2 )
 
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( 0.0092144, 0.0305452 )
+scale = Vector2( 3.19476, 3.19078 )
+
 [connection signal="area_entered" from="ContainerArea" to="." method="_on_ContainerArea_area_entered"]
 [connection signal="input_event" from="ContainerArea" to="." method="_on_ContainerArea_input_event"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
