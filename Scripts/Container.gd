@@ -17,6 +17,7 @@ func _on_ContainerArea_area_entered(area):
 	if area.name == "PickedObjectArea" and has_node("Ball"):
 		#print('area.name == "PickedObjectArea" and has_node("Ball")')
 		emit_signal("has_object", true)
+		print("Container: has ball")
 	elif area.name == "PickedObjectArea" and !has_node("Ball"):
 		emit_signal("has_object", false)
 
@@ -26,3 +27,4 @@ func _placed_object():
 
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
+	print("Container destroyed")

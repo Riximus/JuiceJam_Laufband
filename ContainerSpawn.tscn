@@ -1,11 +1,24 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Container.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scripts/ContainerSpawn.gd" type="Script" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends PathFollow2D
+
+#export (PackedScene) var container_scene
+
+export var speed : float = 100
+
+func _physics_process(delta):
+	move(delta)
+
+func move(delta):
+	set_offset(get_offset() + speed * delta)
+"
 
 [node name="ContainerSpawn" type="PathFollow2D"]
 position = Vector2( -128, 448 )
 rotation = 7.74006e-06
-script = ExtResource( 2 )
+script = SubResource( 1 )
 
 [node name="Container" parent="." instance=ExtResource( 1 )]

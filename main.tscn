@@ -1,18 +1,36 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://ContainerSpawn.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Ball.tscn" type="PackedScene" id=3]
 [ext_resource path="res://ContainerPath.tscn" type="PackedScene" id=4]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -128, 448, 0, 0, 0, 0, 1152, 448 )
+}
+
+[sub_resource type="GDScript" id=2]
+resource_local_to_scene = true
+script/source = "extends Path2D
+
+export (PackedScene) var container_spawn_scene
+
+func _unhandled_input(event):
+	#print(\"click\")
+	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.pressed == true:
+		var container_spawn_instance = container_spawn_scene.instance() # object gets instantiated
+		add_child(container_spawn_instance)
+		print(\"container created\")
+"
 
 [node name="main" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 404.332, 255.628 )
-ball_scene = ExtResource( 3 )
 
 [node name="Ball" parent="." instance=ExtResource( 3 )]
 position = Vector2( 220.479, 239.598 )
 
 [node name="ContainerPath" parent="." instance=ExtResource( 4 )]
-container_spawn_scene = ExtResource( 2 )
+curve = SubResource( 1 )
+script = SubResource( 2 )

@@ -18,6 +18,8 @@ var pickedObjectArea : bool
 func _ready():
 	#connect to signals
 	get_parent().get_node("Ball").connect("picked_up", self, "_picked_up_ball")
+	get_parent().get_node("ContainerPath/ContainerSpawn/Container").connect("placing_object", self, "_placing_in_container")
+	get_parent().get_node("ContainerPath/ContainerSpawn/Container").connect("has_object", self, "_has_object")
 
 	
 	screenSize = get_viewport_rect().size
@@ -26,11 +28,6 @@ func _ready():
 func _process(_delta: float):
 	position.x = clamp(position.x, 0, screenSize.x)
 	position.y = clamp(position.y, 0, screenSize.y)
-	if get_parent().get_node("ContainerPath").has_node("ContainerSpawn"):
-		get_parent().get_node("ContainerPath/ContainerSpawn/Container").connect("placing_object", self, "_placing_in_container")
-		get_parent().get_node("ContainerPath/ContainerSpawn/Container").connect("has_object", self, "_has_object")
-	else:
-		print("there is no container")
 
 func _physics_process(_delta: float):
 	player_move()
@@ -63,9 +60,11 @@ func _placing_in_container():
 	if get_node("PickedObject").has_node("Ball") and pickedObjectArea and !hasObject:
 		get_node("PickedObject/Ball").queue_free()
 		emit_signal("placed_object") # placed object signal
-		print("placed the object")
+#		print("Player: Placed Objects")
+#		print("placed the object")
 	elif get_node("PickedObject").has_node("Ball") and pickedObjectArea and hasObject:
 		print("already occupied")
+#		print("Player: Has Object")
 	elif !get_node("PickedObject").has_node("Ball") and pickedObjectArea:
 		print("has no ball to place")
 	else:
