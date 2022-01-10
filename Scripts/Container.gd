@@ -1,6 +1,6 @@
 extends Sprite
 
-export (PackedScene) var ball_scene
+var ball_scene = load("res://Ball.tscn")
 
 signal placing_object
 signal has_object

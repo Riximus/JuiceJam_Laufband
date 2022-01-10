@@ -6,6 +6,7 @@
 script/source = "extends PathFollow2D
 
 #export (PackedScene) var container_scene
+var ball_scene = load(\"res://Container.tscn\")
 
 export var speed : float = 100
 

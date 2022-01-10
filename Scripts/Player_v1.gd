@@ -1,7 +1,5 @@
 extends KinematicBody2D
 
-export (PackedScene) var ball_scene
-
 export var speed : float = 500
 
 signal placed_object
@@ -12,6 +10,8 @@ var screenSize : Vector2 = Vector2.ZERO
 var interactArea : bool
 var hasObject : bool
 var pickedObjectArea : bool
+
+var ball_scene = load("res://Ball.tscn")
 
 #onready var ball_scene = preload("res://Ball.tscn")
 
